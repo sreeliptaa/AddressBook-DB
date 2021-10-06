@@ -353,19 +353,100 @@ mysql> select * from address_book;
 5 rows in set (0.00 sec)
 
 
+#UC12
+
+
+mysql> create table person_contact(
+    -> first_name varchar(50) not null,
+    -> last_name varchar(50) not null,
+    -> address varchar(100) not null,
+    -> phonenumber bigint not null,
+    -> email varchar(50),
+    -> primary key (first_name)
+    -> );
+Query OK, 0 rows affected (1.45 sec)
+
+mysql> desc person_contact;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| first_name  | varchar(50)  | NO   | PRI | NULL    |       |
+| last_name   | varchar(50)  | NO   |     | NULL    |       |
+| address     | varchar(100) | NO   |     | NULL    |       |
+| phonenumber | bigint       | NO   |     | NULL    |       |
+| email       | varchar(50)  | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> create table person_address(
+    -> zip int(10) not null,
+    -> city varchar(100) not null,
+    -> state varchar(100) not null,
+    -> primary key(zip));
+Query OK, 0 rows affected, 1 warning (0.57 sec)
+
+mysql> desc person_address;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| zip   | int          | NO   | PRI | NULL    |       |
+| city  | varchar(100) | NO   |     | NULL    |       |
+| state | varchar(100) | NO   |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+3 rows in set (0.12 sec)
+
+mysql> create table person_contact_address
+    -> ( first_name varchar(50) not null,
+    -> zip int(10) not null,
+    -> foreign key(first_name)references person_contact(first_name),
+    -> foreign key(zip) references person_address(zip));
+Query OK, 0 rows affected, 1 warning (2.83 sec)
+
+mysql> insert into person_contact(first_name,last_name,address,phonenumber,email) values
+    -> ('Tom','sany','cuttack','6543298765','tom@gmail.com'),
+    -> ('Riya','mehra','Goa','9877896543','riya@gmail.com');
+Query OK, 2 rows affected (0.20 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select* from person_contact;
++------------+-----------+---------+-------------+----------------+
+| first_name | last_name | address | phonenumber | email          |
++------------+-----------+---------+-------------+----------------+
+| Riya       | mehra     | Goa     |  9877896543 | riya@gmail.com |
+| Tom        | sany      | cuttack |  6543298765 | tom@gmail.com  |
++------------+-----------+---------+-------------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into person_address(zip,city,state) values
+    -> ('753014','kochi','Kerla'),
+    -> ('785921','ameerpet','Hyderabad');
+Query OK, 2 rows affected (0.18 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+
+mysql> select* from person_address;
++--------+----------+-----------+
+| zip    | city     | state     |
++--------+----------+-----------+
+| 753014 | kochi    | Kerla     |
+| 785921 | ameerpet | Hyderabad |
++--------+----------+-----------+
+2 rows in set (0.00 sec)
 
 
 
+#UC13
 
 
 
-
-
-
-
-
-
-
+mysql> select* from person_contact;
++------------+-----------+---------+-------------+----------------+
+| first_name | last_name | address | phonenumber | email          |
++------------+-----------+---------+-------------+----------------+
+| Riya       | mehra     | Goa     |  9877896543 | riya@gmail.com |
+| Tom        | sany      | cuttack |  6543298765 | tom@gmail.com  |
++------------+-----------+---------+-------------+----------------+
+2 rows in set (0.08 sec)
 
 
 
